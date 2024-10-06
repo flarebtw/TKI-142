@@ -28,19 +28,17 @@ int main()
 	const double x = -0.5;
 	const double y = 1.7;
 	const double z = 0.44;
-	const double a = getA(x, y, z);
-	const double b = getB(y, z, a);
-	printf("a = %f\n", a);
-	printf("b = %f\n", b);
+	printf("a = %f\n", getA(x, y, z));
+	printf("b = %f\n", getB(x, y, z));
 	return 0;
 }
 
 double getA(const double x, const double y, const double z)
 {
-	return pow(exp(1), -y * z) * sin(x * z - y) - sqrt(abs(y * z + x));
+	return exp(- y * z)* sin(x * z - y) - sqrt(fabs(y * z + x));
 }
 
-double getB(const double y, const double z, const double a)
+double getB(const double x, const double y, const double z)
 {
-	return y * sin(a * pow(z, 2) * cos(2 * z)) - 1;
+	return y * sin(getA(x, y, z) * pow(z, 2) * cos(2 * z)) - 1;
 }
