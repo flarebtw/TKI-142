@@ -1,22 +1,22 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
 
 /**
- * @brief Определяет константы
- * @return Возвращает их значения
+ * @brief Вызывает меню
+ * @return Возвращает значение выбранный параметр
  */
-void determinant(void);
+void printMenu(void);
 
 /**
- * @brief Проверка полученного вещественного значения
+ * @brief Ввод полученного вещественного значения
  * @return Возвращает проверенное вещественное число
  */
 double inputDouble(void);
 
 /**
- * @brief Проверка полученного целого значения
+ * @brief Ввод полученного целого значения
  * @return Возвращает полученное целое значение
  */
 int inputInt(void);
@@ -27,7 +27,7 @@ int inputInt(void);
 * @param y значение длины
 * @return Возвращает значение периметра
 */
-double getPer(double const x, double const y);
+double getPerimeter(double const x, double const y);
 
 /**
 * @brief Рассчитывает значение площади по данным сторонам
@@ -60,12 +60,12 @@ int main(void)
 {
 	double const x = inputDouble();
 	double const y = inputDouble();
-	determinant();
-	int re = inputInt();
-	switch (re)
+	printMenu();
+	int query = inputInt();
+	switch (query)
 	{
 	case perimeter:
-		printf("Perimeter of rectangle = %.2lf\n", getPer(x, y));
+		printf("Perimeter of rectangle = %.2lf\n", getPerimeter(x, y));
 		break;
 	case area:
 		printf("Area of the rectangle = %.2lf\n", getArea(x, y));
@@ -81,7 +81,7 @@ int main(void)
 	return 0;
 }
 
-void determinant(void)
+void printMenu(void)
 {
 	printf("Perimeter - %d\n", perimeter);
 	printf("Area - %d\n", area);
@@ -114,7 +114,7 @@ int inputInt(void)
 	return c;
 }
 
-double getPer(double const x, double const y)
+double getPerimeter(double const x, double const y)
 {
 	return 2 * (x + y);
 }
