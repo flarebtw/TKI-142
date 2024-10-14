@@ -23,6 +23,10 @@ double getSecond(const double x);
 */
 double input(void);
 
+/**
+* @brief точка входа в программу
+* @return возвращает 0 в случае успеха
+*/
 int main(void) {
 	puts("Enter x value:");
 	double x = input();
