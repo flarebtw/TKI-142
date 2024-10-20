@@ -3,18 +3,52 @@
 #include <errno.h>
 #include <math.h>
 
+/**
+* @brief Считывает введенное значение
+* @return Возвращает считанное значение
+*/
 double input(void);
 
+/**
+* @brief Считывает введеное целое значение
+* @return Возвращает считанное значение
+*/
 int inputInt(void);
 
+/**
+* @brief Прооверяет неотрицательность введенного значения
+* @param quantity введенное значение
+* @return Возвращает ошибку, если значение меньше нуля
+*/
 void checkQuantity(int quantity);
 
+/**
+* @brief Рассчитывает значение следующего элемента последовательности
+* @param previousElement значение предыдущего элемента последовательности
+* @param k текущий индекс последовательности
+* @return Возвращает значение следующего элемента последовательности
+*/
 double nextElement(double previousElement, int k);
 
+/**
+* @brief Рассчитывает значение суммы n членов
+* @param n Количество членов последовательности
+* @return Возвращает значение суммы n членов последовательности
+*/
 double getNSum(const int n);
 
+/**
+* @brief Рассчитывает значение суммы всех членов последовательности, не меньших заданного числа e
+* @param n Количество членов последовательности
+* @param e Заданное число
+* @return Возвращает значение суммы всех членов последовательности
+*/
 double getSumNotLessThanE(const int n, const double e);
 
+/**
+* @brief Точка входа в программу
+* @return В случае успеха, возвращает 0
+*/
 int main(void)
 {
 	puts("Enter number of sequence elements:");
@@ -71,7 +105,7 @@ double nextElement(double previousElement, int k)
 double getNSum(const int n)
 {
 	double sum = 0.0;
-	double Element = 1.0;
+	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
 	for (int k = 1; k <= n; ++k)
 	{
 		if (k > 1) {
@@ -85,7 +119,7 @@ double getNSum(const int n)
 double getSumNotLessThanE(const int n, const double e)
 {
 	double sum = 0.0;
-	double Element = 1.0;
+	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
 	for (int k = 1; k <= n; ++k)
 	{
 		if (k > 1)
