@@ -2,12 +2,21 @@
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
+#include <float.h>
+#include <stdbool.h>
 
 /**
 * @brief Считывает вещественное значение
 * @return Возвращает вещественное значение
 */
 double input(void);
+
+/**
+ * @brief Проверяет корректность введённого значения
+ * @param value Значение для проверки
+ * @return Возвращает ошибку в случае неверно введенного значения
+ */
+void checkValue(double value);
 
 /**
 * @brief Рассчитывает время до привала
@@ -41,13 +50,24 @@ double input(void)
 {
 	double value = 0.0;
 	int result = scanf_s("%lf", &value);
-	if (result != 1 || value < 0)
+	if (result != 1)
 	{
 		errno = EIO;
 		perror("Input error!");
 		exit(EXIT_FAILURE);
 	}
+	checkValue(value);
 	return value;
+}
+
+void checkValue(double value)
+{
+	if (value < 0)
+	{
+		errno = EIO;
+		perror("Input error: Value must be non-negative!");
+		exit(EXIT_FAILURE);
+	}
 }
 
 double getTime(const double v1, const double v2, const double v3, const double t1, const double t2, const double t3)
