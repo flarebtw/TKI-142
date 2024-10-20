@@ -3,7 +3,6 @@
 #include <math.h>
 #include <errno.h>
 #include <float.h>
-#include <stdbool.h>
 
 /**
 * @brief Считывает вещественное значение
