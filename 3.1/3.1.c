@@ -89,7 +89,7 @@ void check_interval(const double start, const double end)
 
 void check_step(const double step)
 {
-	if (step <= 0)
+	if (step <= DBL_EPSILON)
 	{
 		errno = EIO;
 		perror("Step value input error!");
