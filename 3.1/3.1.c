@@ -1,8 +1,9 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <stdbool.h>
 #include <float.h>
+#include <math.h>;
 
 /**
 * @brief Считывает вещественное значение
@@ -30,15 +31,19 @@ void check_step(const double step);
 * @param x переменная x
 * @return Возвращает True в случае успеха, иначе - False
 */
-const bool check_x_value(double x);
+bool check_x_value(double x);
 
 /**
-* @brief Вызвает функцию 
+* @brief Вызвает функцию
 * @param x значение переменной x
 * @return Возвращает значение функции если нет деления на нуль, в ином случае вызывает ошибку
 */
-const double getFunction(double x);
+double getFunction(double x);
 
+/**
+* @brief Точка входа в программу
+* @return Возвращает 0 в случае успеха
+*/
 int main(void)
 {
 	puts("Enter interval value: ");
@@ -48,13 +53,11 @@ int main(void)
 	puts("Enter step value: ");
 	const double step = input();
 	check_step(step);
-	double x = 0.0;
-	for (x = start; x <= end + DBL_EPSILON; x += step)
+	for (double x = start; x <= end + DBL_EPSILON; x += step)
 	{
-		if ((check_x_value(x)) == false) 
+		if (!check_x_value(x))
 		{
 			puts("x input error!");
-			exit(EXIT_FAILURE);
 		}
 		else
 		{
@@ -97,13 +100,13 @@ void check_step(const double step)
 	}
 }
 
-const bool check_x_value(double x)
+bool check_x_value(double x)
 {
 	return x > DBL_EPSILON;
 }
 
-const double getFunction(double x)
+double getFunction(double x)
 {
-	
+
 	return cos(2 / x) - 2 * sin(1 / x) + 1 / x;
 }
