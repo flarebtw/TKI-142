@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
@@ -20,7 +20,7 @@ int inputInt(void);
 * @param quantity введенное значение
 * @return Возвращает ошибку, если значение меньше нуля
 */
-void checkQuantity(int quantity);
+void checkQuantity(const int quantity);
 
 /**
 * @brief Рассчитывает значение следующего элемента последовательности
@@ -28,7 +28,7 @@ void checkQuantity(int quantity);
 * @param k текущий индекс последовательности
 * @return Возвращает значение следующего элемента последовательности
 */
-double nextElement(double previousElement, int k);
+double nextElement(const double previousElement, const int k);
 
 /**
 * @brief Рассчитывает значение суммы n членов
@@ -43,7 +43,7 @@ double getNSum(const int n);
 * @param e Заданное число
 * @return Возвращает значение суммы всех членов последовательности
 */
-double getSumNotLessThanE(const int n, const double e);
+double getSumNotLessThanE(const double e);
 
 /**
 * @brief Точка входа в программу
@@ -56,14 +56,14 @@ int main(void)
 	puts("Enter e value:");
 	const double e = input();
 	printf("Sum of N elements = %.3lf\n", getNSum(n));
-	printf("Sum of all elements not less than e = %.3lf\n", getSumNotLessThanE(n, e));
+	printf("Sum of all elements not less than e = %.3lf\n", getSumNotLessThanE(e));
 	return 0;
 }
 
 double input(void)
 {
 	double value = 0.0;
-	int result = scanf("%lf", &value);
+	int result = scanf_s("%lf", &value);
 	if (result != 1)
 	{
 		errno = EIO;
@@ -76,7 +76,7 @@ double input(void)
 int inputInt(void)
 {
 	int quantity = 0;
-	int result = scanf("%d", &quantity);
+	int result = scanf_s("%d", &quantity);
 	if (result != 1)
 	{
 		errno = EIO;
@@ -97,7 +97,7 @@ void checkQuantity(int quantity)
 	}
 }
 
-double nextElement(double previousElement, int k)
+double nextElement(const double previousElement, const int k)
 {
 	return  previousElement * (pow(k, 4) / k);
 }
@@ -108,29 +108,22 @@ double getNSum(const int n)
 	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
 	for (int k = 1; k <= n; ++k)
 	{
-		if (k > 1) {
-			Element = nextElement(Element, k);
-		}
+		Element = nextElement(Element, k);
 		sum += Element;
 	}
 	return sum;
 }
 
-double getSumNotLessThanE(const int n, const double e)
+double getSumNotLessThanE(const double e)
 {
 	double sum = 0.0;
 	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
-	for (int k = 1; k <= n; ++k)
+	int k = 1;
+	while (Element >= e) 
 	{
-		if (k > 1)
-		{
-			Element = nextElement(Element, k);
-		}
-		
-		if (Element >= e)
-		{
-			sum += Element;
-		}
+		sum += Element;
+		k++;
+		Element = nextElement(Element, k);
 	}
 	return sum;
 }
