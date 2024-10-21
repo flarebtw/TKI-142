@@ -1,21 +1,57 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
 #include <float.h>
 
+/**
+* @brief Считывает введенное значение
+* @return Возвращает введенное значение
+*/
 double input(void);
 
+/**
+* @brief Проверяет правильность введенных значений интервала
+* @param a начало интервала
+* @param b конец интервала
+* @return Возвращает ошибку, если введен некорректный интервал
+*/
 void checkInterval(const double a, const double b);
 
+/**
+* @brief Проверяет правильность введенного значения шага
+* @param step величина шага
+* @return Возвращает ошибку, если введен некорректный шаг
+*/
 void checkStep(const double step);
 
+/**
+* @brief Вызвает функцию
+* @param x значение переменной x
+* @return Возвращает значение функции если нет деления на нуль, в ином случае вызывает ошибку
+*/
 double getFunction(double x);
 
+/**
+* @brief Рассчитывает значение следующего элемента последовательности
+* @param x значение переменной
+* @param n текущий индекс элемента последовательности
+* @return Возвращает значение следующего элемента последовательности
+*/
 double getElement(double x, int n);
 
+/**
+* @brief Рассчитывает значение суммы n членов
+* @param x значение переменной
+* @param epsilon значение величины с точностью которой следует вычислить значение суммы членов последовательности
+* @return Возвращает значение суммы n членов последовательности
+*/
 double getSum(double x, const double epsilon);
 
+/**
+* @brief Точка входа в программу
+* @return Возвращает 0 в случае успеха
+*/
 int main(void)
 {
 	const double epsilon = pow(30, -5);
