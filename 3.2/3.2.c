@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
+#include <float.h>
 
 /**
 * @brief Считывает введенное значение
@@ -119,7 +120,7 @@ double getSumNotLessThanE(const double e)
 	double sum = 0.0;
 	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
 	int k = 1;
-	while (Element >= e) 
+	while (Element >= e+DBL_EPSILON) 
 	{
 		sum += Element;
 		k++;
