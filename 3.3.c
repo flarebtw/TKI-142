@@ -64,7 +64,7 @@ int main(void)
 	checkStep(step);
 	for (double x = a; x <= b + DBL_EPSILON; x += step)
 	{
-		if (fabs(x) >= 1)
+		if ((x) >= 1)
 		{
 			errno = EDOM;
 			perror("Invalid input for log function!");
