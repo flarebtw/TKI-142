@@ -106,11 +106,11 @@ double nextElement(const double previousElement, const int k)
 double getNSum(const int n)
 {
 	double sum = 0.0;
-	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
-	for (int k = 1; k <= n; ++k)
+	double element = 1.0; // Первый член последовательности равен 1^4/1! = 1
+	for (int k = 1; k < n; ++k)
 	{
-		Element = nextElement(Element, k);
-		sum += Element;
+		element = nextElement(element, k);
+		sum += element;
 	}
 	return sum;
 }
@@ -118,13 +118,13 @@ double getNSum(const int n)
 double getSumNotLessThanE(const double e)
 {
 	double sum = 0.0;
-	double Element = 1.0; // Первый член последовательности равен 1^4/1! = 1
+	double element = 1.0; // Первый член последовательности равен 1^4/1! = 1
 	int k = 1;
-	while (Element >= e+DBL_EPSILON) 
+	while (fabs(element) >= e+DBL_EPSILON) 
 	{
-		sum += Element;
+		sum += element;
+		element = nextElement(element, k);
 		k++;
-		Element = nextElement(Element, k);
 	}
 	return sum;
 }
