@@ -30,7 +30,7 @@ void checkStep(const double step);
 * @param x значение переменной x
 * @return Возвращает значение функции если нет деления на нуль, в ином случае вызывает ошибку
 */
-double getFunction(double x);
+double getFunction(const double x);
 
 /**
 * @brief Рассчитывает значение следующего элемента последовательности
@@ -38,7 +38,7 @@ double getFunction(double x);
 * @param n текущий индекс элемента последовательности
 * @return Возвращает значение следующего элемента последовательности
 */
-double getElement(double x, int n);
+double getElement(const double x, int n);
 
 /**
 * @brief Рассчитывает значение суммы n членов
@@ -64,6 +64,11 @@ int main(void)
 	checkStep(step);
 	for (double x = a; x <= b + DBL_EPSILON; x += step)
 	{
+		if (fabs(x) >= 1)
+		{
+			errno = EDOM;
+			perror("Invalid input for log function!");
+		}
 		printf("\nx = %.2f\tf(x) = %.6f\t\tS(x) = %.6f\n", x, getFunction(x), getSum(x, epsilon));
 	}
 	return 0;
@@ -104,12 +109,6 @@ void checkStep(const double step)
 
 double getFunction(double x)
 {
-	if (fabs(x) >= 1)
-	{
-		errno = EDOM;
-		perror("Invalid input for log function!");
-		exit(EXIT_FAILURE);
-	}
 	return (0.25 * log((1 + x) / (1 - x))) + (0.5 * atan(x));
 }
 
@@ -126,8 +125,8 @@ double getSum(double x, const double epsilon)
 	while (fabs(element) > epsilon)
 	{
 		sum += element;
-		n++;
 		element = getElement(x, n);
+		n++;
 	}
 	return sum;
 }
