@@ -38,7 +38,7 @@ double getFunction(const double x);
 * @param n текущий индекс элемента последовательности
 * @return Возвращает значение следующего элемента последовательности
 */
-double getElement(const double x, int n);
+double getElement(const double x, const int n);
 
 /**
 * @brief Рассчитывает значение суммы n членов
@@ -46,7 +46,7 @@ double getElement(const double x, int n);
 * @param epsilon значение величины с точностью которой следует вычислить значение суммы членов последовательности
 * @return Возвращает значение суммы n членов последовательности
 */
-double getSum(double x, const double epsilon);
+double getSum(const double x, const double epsilon);
 
 /**
 * @brief Точка входа в программу
@@ -112,12 +112,12 @@ double getFunction(double x)
 	return (0.25 * log((1 + x) / (1 - x))) + (0.5 * atan(x));
 }
 
-double getElement(double x, int n)
+double getElement(const double x, const int n)
 {
 	return (pow(x, (4 * n + 1)) / (4 * n + 1));
 }
 
-double getSum(double x, const double epsilon)
+double getSum(const double x, const double epsilon)
 {
 	double element = getElement(x, 0);
 	double sum = 0.0;
