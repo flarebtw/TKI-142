@@ -100,7 +100,7 @@ void checkQuantity(int quantity)
 
 double nextElement(const double previousElement, const int k)
 {
-	return  previousElement * (pow(k, 4) / k);
+	return  previousElement * -1 * (pow((k + 1), 4) / ((k + 1) * pow(k, 4)));
 }
 
 double getNSum(const int n)
