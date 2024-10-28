@@ -89,13 +89,12 @@ int main(void)
 {
     printf("Enter array size: ");
     int n = Input();
-    /*if (n <= 0)
+    if (n <= 0)
     {
         errno = EIO;
         perror("Array size must be positive!");
         exit(EXIT_FAILURE);
     }
-    */
     int* array = (int*)malloc(n * sizeof(int));
     checkArray(array);
 
