@@ -7,13 +7,7 @@
 * @brief Считывает введеное значение 
 * @return Возвращает введенное значение
 */
-int Input(void);
-
-/**
- * @brief Вызывает меню
- * @return Возвращает значение выбранный параметр
- */
-void printMenu(void);
+size_t input(void);
 
 /**
 * @brief Проверяет значение k
@@ -21,7 +15,7 @@ void printMenu(void);
 * @param n количество элементов в массиве
 * @return возвращает ошибку если введено число больше количества элементов в массиве, либо если введено число меньше 0
 */
-void checkK(int k, int n);
+void checkK(const size_t k,const size_t n);
 
 /**
 * @brief Заполняет массив случайными числами
@@ -29,7 +23,15 @@ void checkK(int k, int n);
 * @param n количество элементов в массиве
 * @return возвращает массив, заполненный случайными числами
 */
-void fillArrayRandom(int* array, int n);
+void fillArrayRandom(int* array, const size_t n);
+
+/**
+ * @brief выводит массив, заполненный случайными числами
+ * @param n количество элементов в массиве
+ * @param array массив
+ * @return выводит массив
+*/
+void printRandomArray(const size_t n, int* array);
 
 /**
 * @brief Заполнение массива при помощи ввода элементов с клавиатуры
@@ -37,16 +39,25 @@ void fillArrayRandom(int* array, int n);
 * @param n количество элементов в массиве
 * @return возвращает массив, заполненный числами, введеными вручную
 */
-void fillArrayManual(int* array, int n);
+void fillArrayManual(int* array, const size_t n);
+
+/**
+ * @brief Выводит исходный массив
+ * @param array массив
+ * @param n количество элементов в массиве
+ * @return Возвращает вывод исходного массива
+*/
+void printSourceArray(int* array, const size_t n);
 
 /**
 * @brief Меняет знак на противоположный у k элементов с конца массива
+* @param arrayInverted массив с инвертированными k элементами в массиве
 * @param array массив
 * @param n количество элементов в массиве
 * @param k количество элементов с конца массива, которые нужно инвертировать
 * @return Возвращает массив, с инвертированными элементами
 */
-void invertLastKElements(int* array, int n, int k);
+void invertLastKElements(int* arrayInverted, int* array, const size_t n, const size_t k);
 
 /**
 * @brief Выводит индексы элементов массива, кратных 3
@@ -54,7 +65,7 @@ void invertLastKElements(int* array, int n, int k);
 * @param n количество элементов в массиве
 * @return Возвращает индексы элементов кратных 3
 */
-void printIndicesDivisibleBy3(int* array, int n);
+void printIndicesDivisibleBy3(int* array, size_t n);
 
 /**
 * @brief Ищет пару соседних элементов с искомой суммой в массиве
@@ -63,7 +74,7 @@ void printIndicesDivisibleBy3(int* array, int n);
 * @param targetSum Искомая сумма 
 * @return Вощвращает элементы с искомой суммой, а также их индексы
 */
-int hasAdjacentPairWithSum(int* array, int n, int targetSum);
+int hasAdjacentPairWithSum(int* array, size_t n, int targetSum);
 
 /**
 * @brief Проверяет массив
@@ -88,31 +99,26 @@ enum request
 int main(void) 
 {
     printf("Enter array size: ");
-    int n = Input();
-    /*if (n <= 0)
+    size_t n = input();
+    if (n <= 0)
     {
         errno = EIO;
         perror("Array size must be positive!");
         exit(EXIT_FAILURE);
     }
-    */
     int* array = (int*)malloc(n * sizeof(int));
     checkArray(array);
 
-    printMenu();
+    printf("Random - %d\n", random);
+    printf("Manual - %d\n", manual);
     
-    int choice = Input();
+    int choice = input();
     switch (choice)
     {
     case random:
         srand(time(0));  // Инициализация генератора случайных чисел
         fillArrayRandom(array, n);
-        printf("Array of random numbers:");
-        for (int i = 0; i < n; i++)
-        {
-            printf("%d ", array[i]);
-        }
-        printf("\n");
+        printRandomArray(n, array);
         break;
     case manual:
         fillArrayManual(array, n);
@@ -124,36 +130,35 @@ int main(void)
         break;
     } 
 
-    printf("Source array: ");
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
+    printSourceArray(array, n);
 
     printf("Enter amount of last elements to be inverted: ");
-    int k = Input();
+    size_t k = input();
     checkK(k, n);
-    invertLastKElements(array, n, k);
 
-    printf("Array after inverting last %d elements: ", k);
-    for (int i = 0; i < n; i++)
+    int* arrayInverted = (int*)malloc(n * sizeof(int));
+    invertLastKElements(arrayInverted, array, n, k);
+
+    printf("Array after inverting last %zu elements: ", k);
+    for (size_t i = 0; i < n; i++)
     {
-        printf("%d ", array[i]);
+        printf("%d ", arrayInverted[i]);
     }
     printf("\n");
+
+    free(arrayInverted);
 
     printIndicesDivisibleBy3(array, n);
 
     printf("Enter the required sum: ");
-    int targetSum = Input() ;
+    int targetSum = input() ;
     hasAdjacentPairWithSum(array, n, targetSum);
 
     free(array);
     return 0;
 }
 
-int Input(void)
+size_t input(void)
 {
     int value = 0;
     int result = scanf("%d", &value);
@@ -175,51 +180,69 @@ void checkArray(int* array)
     }
 }
 
-void printMenu(void)
+void checkK(size_t k, const size_t n)
 {
-    printf("Random - %d\n", random);
-    printf("Manual - %d\n", manual);
-}
-
-void checkK(int k, int n)
-{
-    if (k > n || k < 0)
+    if (k > n)
     {
         errno = ERANGE;
-        perror("Value cannot be higher than amount of elements or negative!");
+        perror("Value cannot be higher than amount of elements");
         exit(EXIT_FAILURE);
     }
 }
 
-void fillArrayRandom(int* array, int n)
+void fillArrayRandom(int* array, const size_t n)
 {
-    for (int i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++)
     {
         array[i] = (rand() % 201) - 100;
     }
 }
 
-void fillArrayManual(int* array, int n)
+void printRandomArray(const size_t n, int* array)
 {
-    for (int i = 0; i < n; i++)
+    printf("Array of random numbers:");
+        for (size_t i = 0; i < n; i++)
+        {
+            printf("%d ", array[i]);
+        }
+        printf("\n");
+}
+
+void fillArrayManual(int* array, const size_t n)
+{
+    for (size_t i = 0; i < n; i++)
     {
         printf("Enter element %d: ", i);
-        array[i] = Input();
+        array[i] = input();
     }
 }
 
-void invertLastKElements(int* array, int n, int k)
+void printSourceArray(int* array, const size_t n)
 {
-    for (int i = n - k; i < n; i++)
+    printf("Source array: ");
+    for (size_t i = 0; i < n; i++)
     {
-        array[i] = -array[i];
+        printf("%d ", array[i]);
+    }
+    printf("\n");
+}
+
+void invertLastKElements(int* arrayInverted ,int* array, const size_t n, const size_t k)
+{
+    for (size_t i = 0; i < n; i++)
+    {
+        arrayInverted [i] = array[i];
+    }
+    for (size_t i = n - k; i < n; i++)
+    {
+        arrayInverted[i] = -array[i];
     }
 }
 
-void printIndicesDivisibleBy3(int* array, int n)
+void printIndicesDivisibleBy3(int* array, const size_t n)
 {
     printf("Indices divisible by 3: ");
-    for (int i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++)
     {
         if (array[i] % 3 == 0)
         {
@@ -230,9 +253,9 @@ void printIndicesDivisibleBy3(int* array, int n)
 }
 
 
-int hasAdjacentPairWithSum(int* array, int n, int targetSum)
+int hasAdjacentPairWithSum(int* array, size_t n, int targetSum)
 {
-    for (int i = 0; i < n - 1; i++)
+    for (size_t i = 0; i < n - 1; i++)
     {
         if (array[i] + array[i + 1] == targetSum)
         {
