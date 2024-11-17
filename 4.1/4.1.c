@@ -75,7 +75,7 @@ void printIndicesDivisibleBy3(int* array, const size_t n);
 * @param targetSum Искомая сумма 
 * @return Вощвращает элементы с искомой суммой, а также их индексы
 */
-int hasAdjacentPairWithSum(int* array, const size_t n, int targetSum);
+void hasAdjacentPairWithSum(int* array, const size_t n, int targetSum);
 
 /**
 * @brief Проверяет массив
@@ -119,7 +119,9 @@ int main(void)
     {
     case random:
         srand(time(0));  // Инициализация генератора случайных чисел
+        printf("Enter minimal interval value \n");
         const int a = input();
+        printf("Enter maximum interval value \n");
         const int b = input();
         fillArrayRandom(array, n, a, b);
         break;
@@ -133,6 +135,7 @@ int main(void)
         break;
     } 
 
+    printf("Source array: \n");
     printArray(array, n);
 
     printf("Enter amount of last elements to be inverted: ");
@@ -212,7 +215,7 @@ void fillArrayRandom(int* array, const size_t n, const int a, const int b)
     }
     for (size_t i = 0; i < n; i++)
     {
-        array[i] = (rand() % a-b+1) - b;
+        array[i] = (rand() % b-a+1) - b;
     }
 }
 
@@ -238,7 +241,7 @@ void invertLastKElements(int* arrayInverted ,int* array, const size_t n, const s
 {
     for (size_t i = 0; i < n; i++)
     {
-        arrayInverted [i] = array[i];
+        array[i] = arrayInverted[i];
     }
     for (size_t i = n - k; i < n; i++)
     {
@@ -260,16 +263,14 @@ void printIndicesDivisibleBy3(int* array, const size_t n)
 }
 
 
-int hasAdjacentPairWithSum(int* array, size_t n, int targetSum)
+void hasAdjacentPairWithSum(int* array, size_t n, int targetSum)
 {
     for (size_t i = 0; i < n - 1; i++)
     {
         if (array[i] + array[i + 1] == targetSum)
         {
             printf("Pair with required sum: %d found: Elements %d and %d (indices %d and %d)\n", targetSum, array[i], array[i + 1], i, i + 1);
-            return 1;
         }
     }
     printf("Pair with required sum: %d is not found.\n", targetSum);
-    return 0;
 }
