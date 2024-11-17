@@ -12,18 +12,18 @@ double getA(const double x, const double y, const double z);
 
 /**
 * @brief рассчитывает выражение b по формуле
+* @param x - значение константы x
 * @param y - значение константы y
 * @param z - значение константы z
-* @param a - значение константы a
 * @return рассчитанное значение
 */
-double getB(const double y, const z, const double a);
+double getB(const double x, const double y, const double z);
 
 /**
 * @brief Точка входа в программу.
 * @return 0, в случае успеха.
 */
-int main()
+int main(void)
 {
 	const double x = -0.5;
 	const double y = 1.7;
