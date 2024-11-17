@@ -7,7 +7,14 @@
 * @brief Считывает введеное значение 
 * @return Возвращает введенное значение
 */
-size_t input(void);
+int input(void);
+
+/**
+ * @brief Проверяет введенное число на неотрицательность
+ * @param value вводимое число
+ * @return Возвращает ошибку, если число отрицательно
+ */
+void checkPositive(int value);
 
 /**
 * @brief Проверяет значение k
@@ -21,17 +28,11 @@ void checkK(const size_t k,const size_t n);
 * @brief Заполняет массив случайными числами
 * @param array массив
 * @param n количество элементов в массиве
+* @param a начало диапазона
+* @param b конец диапазона
 * @return возвращает массив, заполненный случайными числами
 */
-void fillArrayRandom(int* array, const size_t n);
-
-/**
- * @brief выводит массив, заполненный случайными числами
- * @param n количество элементов в массиве
- * @param array массив
- * @return выводит массив
-*/
-void printRandomArray(const size_t n, int* array);
+void fillArrayRandom(int* array, const size_t n, const int a, const int b);
 
 /**
 * @brief Заполнение массива при помощи ввода элементов с клавиатуры
@@ -47,7 +48,7 @@ void fillArrayManual(int* array, const size_t n);
  * @param n количество элементов в массиве
  * @return Возвращает вывод исходного массива
 */
-void printSourceArray(int* array, const size_t n);
+void printArray(int* array, const size_t n);
 
 /**
 * @brief Меняет знак на противоположный у k элементов с конца массива
@@ -65,7 +66,7 @@ void invertLastKElements(int* arrayInverted, int* array, const size_t n, const s
 * @param n количество элементов в массиве
 * @return Возвращает индексы элементов кратных 3
 */
-void printIndicesDivisibleBy3(int* array, size_t n);
+void printIndicesDivisibleBy3(int* array, const size_t n);
 
 /**
 * @brief Ищет пару соседних элементов с искомой суммой в массиве
@@ -74,14 +75,14 @@ void printIndicesDivisibleBy3(int* array, size_t n);
 * @param targetSum Искомая сумма 
 * @return Вощвращает элементы с искомой суммой, а также их индексы
 */
-int hasAdjacentPairWithSum(int* array, size_t n, int targetSum);
+int hasAdjacentPairWithSum(int* array, const size_t n, int targetSum);
 
 /**
 * @brief Проверяет массив
 * @param array массив
 * @return возвращает ошибку, в случае нулевого массива
 */
-void checkArray(int* array);
+const void checkArray(int* array);
 
 /**
 * @param random заполнение массива случайными числами
@@ -100,6 +101,7 @@ int main(void)
 {
     printf("Enter array size: ");
     size_t n = input();
+    checkPositive(n);
     if (n <= 0)
     {
         errno = EIO;
@@ -117,8 +119,9 @@ int main(void)
     {
     case random:
         srand(time(0));  // Инициализация генератора случайных чисел
-        fillArrayRandom(array, n);
-        printRandomArray(n, array);
+        const int a = input();
+        const int b = input();
+        fillArrayRandom(array, n, a, b);
         break;
     case manual:
         fillArrayManual(array, n);
@@ -130,21 +133,19 @@ int main(void)
         break;
     } 
 
-    printSourceArray(array, n);
+    printArray(array, n);
 
     printf("Enter amount of last elements to be inverted: ");
     size_t k = input();
+    checkPositive(k);
     checkK(k, n);
 
     int* arrayInverted = (int*)malloc(n * sizeof(int));
+    checkArray(arrayInverted);
     invertLastKElements(arrayInverted, array, n, k);
 
     printf("Array after inverting last %zu elements: ", k);
-    for (size_t i = 0; i < n; i++)
-    {
-        printf("%d ", arrayInverted[i]);
-    }
-    printf("\n");
+    printArray(arrayInverted, n);
 
     free(arrayInverted);
 
@@ -158,7 +159,7 @@ int main(void)
     return 0;
 }
 
-size_t input(void)
+int input(void)
 {
     int value = 0;
     int result = scanf("%d", &value);
@@ -171,7 +172,18 @@ size_t input(void)
     return value;
 }           
 
-void checkArray(int* array)
+void checkPositive(int value)
+{
+    if (value < 0)
+    {
+        errno = EINVAL;
+        perror("Value must be non-negative");
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+const void checkArray(int* array)
 {
     if (array == NULL)
     {
@@ -190,22 +202,18 @@ void checkK(size_t k, const size_t n)
     }
 }
 
-void fillArrayRandom(int* array, const size_t n)
+void fillArrayRandom(int* array, const size_t n, const int a, const int b)
 {
+    if (a > b)
+    {
+        errno = EINVAL;
+        perror("Invalid range: min cannot be greater than max");
+        exit(EXIT_FAILURE);
+    }
     for (size_t i = 0; i < n; i++)
     {
-        array[i] = (rand() % 201) - 100;
+        array[i] = (rand() % a-b+1) - b;
     }
-}
-
-void printRandomArray(const size_t n, int* array)
-{
-    printf("Array of random numbers:");
-        for (size_t i = 0; i < n; i++)
-        {
-            printf("%d ", array[i]);
-        }
-        printf("\n");
 }
 
 void fillArrayManual(int* array, const size_t n)
@@ -217,9 +225,8 @@ void fillArrayManual(int* array, const size_t n)
     }
 }
 
-void printSourceArray(int* array, const size_t n)
+void printArray(int* array, const size_t n)
 {
-    printf("Source array: ");
     for (size_t i = 0; i < n; i++)
     {
         printf("%d ", array[i]);
