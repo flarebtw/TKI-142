@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 /**
-* @brief Переводит значения массы из килограмм в унции
-* @param x значение массы в кг
+* @brief Переводит значения массы из грамм в унции
+* @param x значение массы в г
 * @return возвращает рассчитаное значение
 */
 double result(const double x);
@@ -19,7 +19,7 @@ double input(void);
 */ 
 int main(void)
 {
-	puts("Введите вес в килограммах");
+	puts("Введите вес в граммах");
 	double x = input();
 	printf("%lf", result(x));
 	return 0;
