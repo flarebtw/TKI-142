@@ -10,6 +10,21 @@
 int input(void);
 
 /**
+ * @brief Создает массив
+ * @param n размер массива
+ * @return Возвращает массив с n элементами
+ */
+int* getArray(const size_t n);
+
+/**
+ * @brief Копирует исходный массив
+ * @param array исходный массив
+ * @param n число элементов массива
+ * @return Возвращает скопированный массив
+ */
+int* copy(const int* const array, const size_t n);
+
+/**
  * @brief Проверяет введенное число на неотрицательность
  * @param value вводимое число
  * @return Возвращает ошибку, если число отрицательно
@@ -82,7 +97,7 @@ void hasAdjacentPairWithSum(int* array, const size_t n, int targetSum);
 * @param array массив
 * @return возвращает ошибку, в случае нулевого массива
 */
-const void checkArray(int* array);
+void checkArray(int* array);
 
 /**
 * @param random заполнение массива случайными числами
@@ -108,8 +123,7 @@ int main(void)
         perror("Array size must be positive!");
         exit(EXIT_FAILURE);
     }
-    int* array = (int*)malloc(n * sizeof(int));
-    checkArray(array);
+    int* array = getArray(n);
 
     printf("Random - %d\n", random);
     printf("Manual - %d\n", manual);
@@ -143,22 +157,22 @@ int main(void)
     checkPositive(k);
     checkK(k, n);
 
-    int* arrayInverted = (int*)malloc(n * sizeof(int));
+    int* arrayInverted = copy(array, n);
     checkArray(arrayInverted);
     invertLastKElements(arrayInverted, array, n, k);
 
     printf("Array after inverting last %zu elements: ", k);
-    printArray(arrayInverted, n);
+    printArray(arrayInverted,  n);
 
-    free(arrayInverted);
+    free(array);
 
-    printIndicesDivisibleBy3(array, n);
+    printIndicesDivisibleBy3(arrayInverted, n);
 
     printf("Enter the required sum: ");
     int targetSum = input() ;
-    hasAdjacentPairWithSum(array, n, targetSum);
+    hasAdjacentPairWithSum(arrayInverted, n, targetSum);
 
-    free(array);
+    free(arrayInverted);
     return 0;
 }
 
@@ -175,6 +189,26 @@ int input(void)
     return value;
 }           
 
+int* getArray(const size_t n)
+{
+	int* array = (int*)malloc(n * sizeof(int));
+	checkArray(array);
+	return array;
+}
+
+int* copy(const int* array, const size_t n)
+{
+	checkArray(array);
+	int* copiedArray = getArray(n);
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		copiedArray[i] = array[i];
+	}
+
+	return copiedArray;
+}
+
 void checkPositive(int value)
 {
     if (value < 0)
@@ -186,10 +220,11 @@ void checkPositive(int value)
 }
 
 
-const void checkArray(int* array)
+void checkArray(int* array)
 {
     if (array == NULL)
     {
+        errno = ENOMEM;
         perror("Memory allocation failed");
         exit(EXIT_FAILURE);
     }
@@ -215,7 +250,7 @@ void fillArrayRandom(int* array, const size_t n, const int a, const int b)
     }
     for (size_t i = 0; i < n; i++)
     {
-        array[i] = (rand() % b-a+1) - b;
+        array[i] = (rand() % (b-a+1)) - b;
     }
 }
 
@@ -223,7 +258,7 @@ void fillArrayManual(int* array, const size_t n)
 {
     for (size_t i = 0; i < n; i++)
     {
-        printf("Enter element %d: ", i);
+        printf("Enter element %zu: ", i);
         array[i] = input();
     }
 }
@@ -239,10 +274,6 @@ void printArray(int* array, const size_t n)
 
 void invertLastKElements(int* arrayInverted ,int* array, const size_t n, const size_t k)
 {
-    for (size_t i = 0; i < n; i++)
-    {
-        array[i] = arrayInverted[i];
-    }
     for (size_t i = n - k; i < n; i++)
     {
         arrayInverted[i] = -array[i];
@@ -271,6 +302,9 @@ void hasAdjacentPairWithSum(int* array, size_t n, int targetSum)
         {
             printf("Pair with required sum: %d found: Elements %d and %d (indices %d and %d)\n", targetSum, array[i], array[i + 1], i, i + 1);
         }
+        else
+        {
+            printf("Pair with required sum: %d is not found.\n", targetSum);
+        }
     }
-    printf("Pair with required sum: %d is not found.\n", targetSum);
 }
