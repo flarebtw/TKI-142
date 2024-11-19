@@ -66,14 +66,21 @@ void printArray(int* array, const size_t n);
 void replaceFirstNegativeWithZero(int* array, const size_t n);
 
 /**
- * @brief
- * @param array
- * @param n 
- * @param k
- * @return
+ * @brief Вставляет число k после каждого элемента, кратного своему индексу
+ * @param array массив
+ * @param n число элементов массива
+ * @param k число, вводимое пользователем
+ * @return Возвращает измененный массив
  */
 void insertKIntoArray(int** array, size_t* n, const int k);
 
+/**
+ * @brief Создает массив A из D по правилам
+ * @param array иссходный массив, он же массив D
+ * @param A новый массив
+ * @param n число элементов в массиве
+ * @return Возвращает новый массив
+ */
 void createArrayAFromD(int* array, int* A, const size_t n);
 
 /**
