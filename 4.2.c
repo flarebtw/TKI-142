@@ -29,7 +29,7 @@ int* copy(const int* array, const size_t n);
  * @param value вводимое число
  * @return Возвращает ошибку, если число отрицательно
  */
-void checkPositive(int value);
+void positiveInput(int value);
 
 /**
 * @brief Заполняет массив случайными числами
@@ -65,12 +65,18 @@ void printArray(const int* array, const size_t n);
  */
 void replaceFirstNegativeWithZero(int* array, const size_t n);
 
+/**
+ * @brief Формирует новый размер массива 
+ * @param array исходный массив
+ * @param n исходный размер массива
+ * @return Возвращает размер массива
+ */
 size_t newSize(int* array, const size_t n);
 
 /**
  * @brief Вставляет число k после каждого элемента, кратного своему индексу
  * @param array массив
- * @param n число элементов массива
+ * @param m число элементов массива
  * @param k число, вводимое пользователем
  * @return Возвращает измененный массив
  */
@@ -108,14 +114,7 @@ enum request
 int main(void)
 {
     printf("Enter array size: ");
-    size_t n = input();
-    checkPositive(n);
-    if (n == 0)
-    {
-        errno = EIO;
-        perror("Array size must be higher than zero!");
-        exit(EXIT_FAILURE);
-    }
+    size_t n = positiveInput();
     int* array = getArray(n);
     
     printf("Random - %d\n", random);
@@ -155,17 +154,16 @@ int main(void)
     printf("Enter k value:");
     const int k = input();
     size_t m = newSize(array, n);
-    printf("%zu\n", m);
     int* arrayK = insertKIntoArray(array, m, k);
     printf("Array after inserting K after multiples of index:\n");
     printArray(arrayK, m);
 
     int* A = getArray(n);
     createArrayAFromD(array, A, n);
+    free(array);
     printf("Array A formed from source:\n");
     printArray(A, n);
 
-    free(clonnedArray);
     free(A);
 
     return 0;
@@ -204,12 +202,13 @@ int* copy(const int* array, const size_t n)
 	return copiedArray;
 }
 
-void checkPositive(int value)
+void positiveInput(int value)
 {
-    if (value < 0)
+    int value = input();
+    if (value <= 0)
     {
         errno = EINVAL;
-        perror("Value must be non-negative");
+        perror("Value must be higher than zero");
         exit(EXIT_FAILURE);
     }
 }
