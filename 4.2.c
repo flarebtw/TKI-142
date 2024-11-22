@@ -65,6 +65,8 @@ void printArray(const int* array, const size_t n);
  */
 void replaceFirstNegativeWithZero(int* array, const size_t n);
 
+size_t newSize(int* array, const size_t n);
+
 /**
  * @brief Вставляет число k после каждого элемента, кратного своему индексу
  * @param array массив
@@ -72,7 +74,7 @@ void replaceFirstNegativeWithZero(int* array, const size_t n);
  * @param k число, вводимое пользователем
  * @return Возвращает измененный массив
  */
-void insertKIntoArray(int** array, size_t* n, const int k);
+int* insertKIntoArray(int* array, size_t m, const int k);
 
 /**
  * @brief Создает массив A из D по правилам
@@ -145,19 +147,21 @@ int main(void)
 
     int* clonnedArray = copy(array, n);
     replaceFirstNegativeWithZero(clonnedArray, n);
-    free(array);
 
     printf("Array after replacing first negative element with zero:\n");
     printArray(clonnedArray, n);
+    free(clonnedArray);
 
     printf("Enter k value:");
     const int k = input();
-    insertKIntoArray(&clonnedArray, &n, k);
+    size_t m = newSize(array, n);
+    printf("%zu\n", m);
+    int* arrayK = insertKIntoArray(array, m, k);
     printf("Array after inserting K after multiples of index:\n");
-    printArray(clonnedArray, n);
+    printArray(arrayK, m);
 
     int* A = getArray(n);
-    createArrayAFromD(clonnedArray, A, n);
+    createArrayAFromD(array, A, n);
     printf("Array A formed from source:\n");
     printArray(A, n);
 
@@ -269,47 +273,50 @@ void replaceFirstNegativeWithZero(int* array, const size_t n)
     }
 }
 
-void insertKIntoArray(int** array, size_t* n, const int k)
+size_t newSize(int* array, const size_t n)
 {
     size_t count = 0;
-
-    if ((*array)[0] == 0)
+    
+    if (array[0] == 0)
 
         {
             count++;
         }
     
-    for (size_t i = 1; i < *n; i++)
+    for (size_t i = 1; i < n; i++)
     {
-        if ((*array)[i] % i == 0)
+        if (array[i] % i == 0)
         {
             count++;
         }
     }
 
-    size_t newSize = *n + count;
-    int* newArray = getArray(newSize);
+    size_t newSize = n + count;
+
+    return newSize;
+} 
+
+int* insertKIntoArray(int* array, size_t m, const int k)
+{
+    int* newArray = getArray(m);
 
     size_t j = 0;
-    for (size_t i = 0; i < *n; i++)
+    for (size_t i = 0; i < m; i++)
     {
-        newArray[j++] = (*array)[i];
+        newArray[j++] = array[i];
 
-        if (i == 0 && (*array)[i] == 0)
+        if (i == 0 && array[i] == 0)
         {
             newArray[j++] = k;
         }
 
-
-        if (i > 0 && (*array)[i] % i == 0)
+        if (i > 0 && array[i] % i == 0)
         {
             newArray[j++] = k;
         }
     }
 
-    free(*array);
-    *array = newArray;
-    *n = newSize;
+    return newArray;
 }
 
 void createArrayAFromD(const int* array, int* A, const size_t n)
