@@ -29,7 +29,7 @@ int* copy(const int* const array, const size_t n);
  * @param value вводимое число
  * @return Возвращает ошибку, если число отрицательно
  */
-void checkPositive(int value);
+int positiveInput(void);
 
 /**
 * @brief Проверяет значение k
@@ -115,14 +115,7 @@ enum request
 int main(void) 
 {
     printf("Enter array size: ");
-    size_t n = input();
-    checkPositive(n);
-    if (n <= 0)
-    {
-        errno = EIO;
-        perror("Array size must be positive!");
-        exit(EXIT_FAILURE);
-    }
+    size_t n = positiveInput();
     int* array = getArray(n);
 
     printf("Random - %d\n", random);
@@ -153,8 +146,7 @@ int main(void)
     printArray(array, n);
 
     printf("Enter amount of last elements to be inverted: ");
-    size_t k = input();
-    checkPositive(k);
+    size_t k = positiveInput();
     checkK(k, n);
 
     int* arrayInverted = copy(array, n);
@@ -209,16 +201,17 @@ int* copy(const int* array, const size_t n)
 	return copiedArray;
 }
 
-void checkPositive(int value)
+int positiveInput(void)
 {
-    if (value < 0)
+    int value = input();
+    if (value <= 0)
     {
         errno = EINVAL;
-        perror("Value must be non-negative");
+        perror("Value must be higher than zero");
         exit(EXIT_FAILURE);
     }
+    return value;
 }
-
 
 void checkArray(const int* array)
 {
