@@ -88,7 +88,7 @@ void createArrayAFromD(const int* array, int* A, const size_t n);
 * @param array массив
 * @return возвращает ошибку, в случае нулевого массива
 */
-void checkArray(int* array);
+void checkArray(const int* array);
 
 /**
 * @param random заполнение массива случайными числами
@@ -210,7 +210,7 @@ void checkPositive(int value)
     }
 }
 
-void checkArray(int* array)
+void checkArray(const int* array)
 {
     if (array == NULL)
     {
