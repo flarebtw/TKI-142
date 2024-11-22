@@ -55,7 +55,7 @@ void fillArrayManual(int* array, const size_t n);
  * @param n количество элементов в массиве
  * @return Возвращает вывод исходного массива
 */
-void printArray(int* array, const size_t n);
+void printArray(const int* array, const size_t n);
 
 /**
  * @brief Заменяет первый отрицательный элемент нулем
@@ -81,7 +81,7 @@ void insertKIntoArray(int** array, size_t* n, const int k);
  * @param n число элементов в массиве
  * @return Возвращает новый массив
  */
-void createArrayAFromD(int* array, int* A, const size_t n);
+void createArrayAFromD(const int* array, int* A, const size_t n);
 
 /**
 * @brief Проверяет массив
@@ -144,7 +144,6 @@ int main(void)
     printArray(array, n);
 
     int* clonnedArray = copy(array, n);
-    checkArray(clonnedArray);
     replaceFirstNegativeWithZero(clonnedArray, n);
     free(array);
 
@@ -158,7 +157,6 @@ int main(void)
     printArray(clonnedArray, n);
 
     int* A = getArray(n);
-    checkArray(A);
     createArrayAFromD(clonnedArray, A, n);
     printf("Array A formed from source:\n");
     printArray(A, n);
@@ -245,7 +243,7 @@ void fillArrayManual(int* array, const size_t n)
     }
 }
 
-void printArray(int* array, const size_t n)
+void printArray(const int* array, const size_t n)
 {
     printf("{ ");
     for (size_t i = 0; i < n; i++)
@@ -314,7 +312,7 @@ void insertKIntoArray(int** array, size_t* n, const int k)
     *n = newSize;
 }
 
-void createArrayAFromD(int* array, int* A, const size_t n)
+void createArrayAFromD(const int* array, int* A, const size_t n)
 {
     for (size_t i = 0; i < n; i++)
     {
