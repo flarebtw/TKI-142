@@ -97,7 +97,7 @@ void hasAdjacentPairWithSum(int* array, const size_t n, int targetSum);
 * @param array массив
 * @return возвращает ошибку, в случае нулевого массива
 */
-void checkArray(int* array);
+void checkArray(const int* array);
 
 /**
 * @param random заполнение массива случайными числами
@@ -220,7 +220,7 @@ void checkPositive(int value)
 }
 
 
-void checkArray(int* array)
+void checkArray(const int* array)
 {
     if (array == NULL)
     {
@@ -296,15 +296,17 @@ void printIndicesDivisibleBy3(int* array, const size_t n)
 
 void hasAdjacentPairWithSum(int* array, size_t n, int targetSum)
 {
+    int f = 0;
     for (size_t i = 0; i < n - 1; i++)
     {
         if (array[i] + array[i + 1] == targetSum)
         {
+            f = 1;
             printf("Pair with required sum: %d found: Elements %d and %d (indices %d and %d)\n", targetSum, array[i], array[i + 1], i, i + 1);
         }
-        else
-        {
-            printf("Pair with required sum: %d is not found.\n", targetSum);
-        }
+    }
+    if (f != 1)
+    {
+        printf("Pair with required sum: %d is not found.\n", targetSum);
     }
 }
