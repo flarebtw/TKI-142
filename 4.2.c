@@ -26,10 +26,9 @@ int* copy(const int* array, const size_t n);
 
 /**
  * @brief Проверяет введенное число на неотрицательность
- * @param value вводимое число
- * @return Возвращает ошибку, если число отрицательно
+ * @return Возвращает ошибку, если число отрицательно, иначе возвращает введенное значение
  */
-void positiveInput(int value);
+int positiveInput(void);
 
 /**
 * @brief Заполняет массив случайными числами
@@ -158,11 +157,13 @@ int main(void)
     printf("Array after inserting K after multiples of index:\n");
     printArray(arrayK, m);
 
-    int* A = getArray(n);
-    createArrayAFromD(array, A, n);
     free(array);
+
+    int* A = getArray(m);
+    createArrayAFromD(arrayK, A, m);
+    free(arrayK);
     printf("Array A formed from source:\n");
-    printArray(A, n);
+    printArray(A, m);
 
     free(A);
 
@@ -202,7 +203,7 @@ int* copy(const int* array, const size_t n)
 	return copiedArray;
 }
 
-void positiveInput(int value)
+int positiveInput(void)
 {
     int value = input();
     if (value <= 0)
@@ -211,6 +212,7 @@ void positiveInput(int value)
         perror("Value must be higher than zero");
         exit(EXIT_FAILURE);
     }
+    return value;
 }
 
 void checkArray(const int* array)
