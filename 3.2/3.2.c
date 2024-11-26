@@ -56,6 +56,7 @@ int main(void)
 	const int n = inputInt();
 	puts("Enter e value:");
 	const double e = input();
+	checkQuantity(e);
 	printf("Sum of N elements = %.3lf\n", getNSum(n));
 	printf("Sum of all elements not less than e = %.3lf\n", getSumNotLessThanE(e));
 	return 0;
@@ -105,8 +106,8 @@ double nextElement(const double previousElement, const int k)
 
 double getNSum(const int n)
 {
-	double sum = 0.0;
 	double element = 1.0; // Первый член последовательности равен 1^4/1! = 1
+	double sum = element;
 	for (int k = 1; k < n; ++k)
 	{
 		element = nextElement(element, k);
@@ -117,8 +118,8 @@ double getNSum(const int n)
 
 double getSumNotLessThanE(const double e)
 {
-	double sum = 0.0;
 	double element = 1.0; // Первый член последовательности равен 1^4/1! = 1
+	double sum = element;
 	int k = 1;
 	while (fabs(element) >= e+DBL_EPSILON) 
 	{
