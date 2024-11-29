@@ -61,7 +61,7 @@ double input(void)
 
 void checkValue(double value)
 {
-	if (value < DBL_EPSILON)
+	if (value <= DBL_EPSILON)
 	{
 		errno = EIO;
 		perror("Input error: Value must be non-negative!");
