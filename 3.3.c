@@ -125,8 +125,8 @@ double getSum(const double x, const double epsilon)
 	while (fabs(element) > epsilon)
 	{
 		sum += element;
-		element = getElement(x, n);
 		n++;
+		element = getElement(x, n);
 	}
 	return sum;
 }
