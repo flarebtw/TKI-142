@@ -53,7 +53,7 @@ int main(void)
 	puts("Enter step value: ");
 	const double step = input();
 	check_step(step);
-	for (double x = start; x <= end + DBL_EPSILON; x += step)
+	for (double x = start; x < end+step; x += step)
 	{
 		if (!check_x_value(x))
 		{
