@@ -123,8 +123,8 @@ double getSumNotLessThanE(const double e)
 	int k = 1;
 	while (fabs(element) >= e+DBL_EPSILON) 
 	{
-		sum += element;
 		element = nextElement(element, k);
+		sum += element;
 		k++;
 	}
 	return sum;
