@@ -24,6 +24,13 @@ int inputInt(void);
 void checkQuantity(const int quantity);
 
 /**
+ * @brief Проверяет неотрицательность вещественного значения
+ * @param value введеное значение 
+ * @return Возвращает ошибку, если введеное значение не положительно
+ */
+void checkValue(const double value);
+
+/**
 * @brief Рассчитывает значение следующего элемента последовательности
 * @param previousElement значение предыдущего элемента последовательности
 * @param k текущий индекс последовательности
@@ -56,7 +63,6 @@ int main(void)
 	const int n = inputInt();
 	puts("Enter e value:");
 	const double e = input();
-	checkQuantity(e);
 	printf("Sum of N elements = %.3lf\n", getNSum(n));
 	printf("Sum of all elements not less than e = %.3lf\n", getSumNotLessThanE(e));
 	return 0;
@@ -72,6 +78,7 @@ double input(void)
 		perror("Input error!");
 		exit(EXIT_FAILURE);
 	}
+	checkValue(value);
 	return value;
 }
 
@@ -89,9 +96,19 @@ int inputInt(void)
 	return quantity;
 }
 
-void checkQuantity(int quantity)
+void checkQuantity(const int quantity)
 {
 	if (quantity < 0)
+	{
+		errno = EIO;
+		perror("Value cannot be lower than zero!");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void checkValue(const double value)
+{
+	if(value < 0)
 	{
 		errno = EIO;
 		perror("Value cannot be lower than zero!");
