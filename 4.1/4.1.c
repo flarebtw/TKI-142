@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <time.h>
+#include <stdbool.h>
 
 /**
 * @brief Считывает введеное значение 
@@ -89,7 +90,7 @@ void printIndicesDivisibleBy3(const int* array, const size_t n);
 * @param targetSum Искомая сумма 
 * @return Вощвращает элементы с искомой суммой, а также их индексы
 */
-int hasAdjacentPairWithSum(const int* array, const size_t n,const int targetSum);
+bool hasAdjacentPairWithSum(const int* array, const size_t n,const int targetSum);
 
 /**
 * @brief Проверяет массив
@@ -153,13 +154,21 @@ int main(void)
 
     printf("Array after inverting last %zu elements: ", k);
     printArray(arrayInverted,  n);
-
-    printIndicesDivisibleBy3(arrayInverted, n);
     free(arrayInverted);
 
+    printf("Indices divisible by 3: ");
+    printIndicesDivisibleBy3(array, n);
+
     printf("Enter the required sum: ");
-    int targetSum = input() ;
-    hasAdjacentPairWithSum(array, n, targetSum);
+    int targetSum = input();
+    if (hasAdjacentPairWithSum(array, n, targetSum))
+    {
+        printf("Pair with required sum: %d found\n", targetSum);
+    }
+    else
+    {
+        printf("Pair with required sum: %d is not found.\n", targetSum);
+    }
 
     free(array);
 
@@ -233,6 +242,7 @@ void checkK(size_t k, const size_t n)
 
 void fillArrayRandom(int* array, const size_t n, const int min, const int max)
 {
+    checkArray(array);
     if (min > max)
     {
         errno = EINVAL;
@@ -241,12 +251,13 @@ void fillArrayRandom(int* array, const size_t n, const int min, const int max)
     }
     for (size_t i = 0; i < n; i++)
     {
-        array[i] = (rand() % (max-min+1)) - max;
+        array[i] = (rand() % (max-min+1)) + min;
     }
 }
 
 void fillArrayManual(int* array, const size_t n)
 {
+    checkArray(array);
     for (size_t i = 0; i < n; i++)
     {
         printf("Enter element %zu: ", i);
@@ -256,6 +267,7 @@ void fillArrayManual(int* array, const size_t n)
 
 void printArray(const int* array, const size_t n)
 {
+    checkArray(array);
     for (size_t i = 0; i < n; i++)
     {
         printf("%d ", array[i]);
@@ -265,6 +277,7 @@ void printArray(const int* array, const size_t n)
 
 void invertLastKElements(int* arrayInverted, const size_t n, const size_t k)
 {
+    checkArray(arrayInverted);
     for (size_t i = n - k; i < n; i++)
     {
         arrayInverted[i] = -arrayInverted[i];
@@ -273,7 +286,7 @@ void invertLastKElements(int* arrayInverted, const size_t n, const size_t k)
 
 void printIndicesDivisibleBy3(const int* array, const size_t n)
 {
-    printf("Indices divisible by 3: ");
+    checkArray(array);
     for (size_t i = 0; i < n; i++)
     {
         if (array[i] % 3 == 0)
@@ -284,17 +297,18 @@ void printIndicesDivisibleBy3(const int* array, const size_t n)
     printf("\n");
 }
 
-
-int hasAdjacentPairWithSum(const int* array, const size_t n, const int targetSum)
+bool hasAdjacentPairWithSum(const int* array, const size_t n, const int targetSum)
 {
+
     for (size_t i = 0; i < n - 1; i++)
     {
         if (array[i] + array[i + 1] == targetSum)
         {
-            printf("Pair with required sum: %d found\n", targetSum);
-            return 1;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
-    printf("Pair with required sum: %d is not found.\n", targetSum);
-    return 0;
 }
