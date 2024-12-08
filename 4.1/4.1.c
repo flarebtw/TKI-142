@@ -232,7 +232,7 @@ void checkArray(const int* array)
 
 void checkK(size_t k, const size_t n)
 {
-    if (k >= n)
+    if (k > n)
     {
         errno = ERANGE;
         perror("Value cannot be higher than amount of elements");
