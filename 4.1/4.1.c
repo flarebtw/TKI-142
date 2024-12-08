@@ -161,6 +161,7 @@ int main(void)
 
     printf("Enter the required sum: ");
     int targetSum = input();
+    printf("%c", hasAdjacentPairWithSum(array, n, targetSum));
     if (hasAdjacentPairWithSum(array, n, targetSum))
     {
         printf("Pair with required sum: %d found\n", targetSum);
@@ -306,9 +307,6 @@ bool hasAdjacentPairWithSum(const int* array, const size_t n, const int targetSu
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
     }
+    return false;
 }
