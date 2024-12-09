@@ -300,7 +300,7 @@ void printIndicesDivisibleBy3(const int* array, const size_t n)
 
 bool hasAdjacentPairWithSum(const int* array, const size_t n, const int targetSum)
 {
-
+    checkArray(array);
     for (size_t i = 0; i < n - 1; i++)
     {
         if (array[i] + array[i + 1] == targetSum)
