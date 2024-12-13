@@ -136,12 +136,12 @@ double getNSum(const int n)
 double getSumNotLessThanE(const double e)
 {
 	double element = 1.0; // Первый член последовательности равен 1^4/1! = 1
-	double sum = element;
+	double sum = 0;
 	int k = 1;
 	while (fabs(element) >= e+DBL_EPSILON) 
 	{
-		element = nextElement(element, k);
 		sum += element;
+		element = nextElement(element, k);
 		k++;
 	}
 	return sum;
